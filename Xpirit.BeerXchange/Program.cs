@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
+using System;
 
 namespace Xpirit.BeerXchange
 {
@@ -19,7 +14,20 @@ namespace Xpirit.BeerXchange
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var settings = config.Build();
+                    config.AddAzureAppConfiguration(options =>
+                    {
+                        options.Connect(settings["ConnectionStrings:AppConfig"])
+                               .UseFeatureFlags(featureFlagOptions =>
+                               {
+                                   featureFlagOptions.PollInterval = TimeSpan.FromSeconds(3);
+                               }
+                            
+                            );
+                    });
+                })
                 .UseStartup<Startup>();
     }
 }

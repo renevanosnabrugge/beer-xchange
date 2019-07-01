@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Xpirit.BeerXchange;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.FeatureManagement;
 
 namespace Xpirit.BeerXchange
 {
@@ -37,6 +38,8 @@ namespace Xpirit.BeerXchange
 
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
+
+            services.AddFeatureManagement();
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>

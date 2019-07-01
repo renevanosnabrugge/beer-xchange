@@ -9,9 +9,10 @@
 
 <h4>Beer</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+<form method="post">
+
+    <div class="row">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Beer.Name" class="control-label"></label>
@@ -29,17 +30,17 @@
                 <span asp-validation-for="Beer.Brewery" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Beer.Picture" class="control-label"></label>
-                <input asp-for="Beer.Picture" class="form-control" />
-                <span asp-validation-for="Beer.Picture" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Beer.Picture" class="control-label"></label>
+                    <input asp-for="Beer.Picture" class="form-control" />
+                    <span asp-validation-for="Beer.Picture" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <ul>
                     @foreach (var item in Model.SwitchedForBeers)
                     {
-                    <li><input asp-for="Beer.SwitchedForId" type="radio" value="@item.Id" /> @item.Name</li>
+                        <li><input asp-for="Beer.SwitchedForId" type="radio" value="@item.Id" /> @item.Name</li>
                     }
-                <li><input asp-for="Beer.SwitchedForId" type="radio" value="-1" checked/>I'm not taking any beer right now</li>
+                    <li><input asp-for="Beer.SwitchedForId" type="radio" value="-1" checked />I'm not taking any beer right now</li>
 
                     <span asp-validation-for="Beer.SwitchedForId" class="text-danger"></span>
                 </ul>
@@ -47,10 +48,20 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-</div>
 
+        </div>
+        <div class="col-md-4">
+            <feature name="@FeatureToggles.FeatureToggle.BEERCODESCANNER">
+
+                <div class="form-group">
+                    <input type="file" class="upload" size="45" name="file" id="file">
+                    <input type="button" value="Scan" class="btn btn-primary" asp-page-handler="Scan" />
+                </div>
+            </feature>
+
+        </div>
+    </div>
+</form>
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
